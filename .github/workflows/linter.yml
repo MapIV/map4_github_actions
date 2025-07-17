@@ -36,12 +36,24 @@ jobs:
         uses: actions/checkout@v4
         with:
           token: ${{ steps.generate_token.outputs.token }}
+          path: main_repo
 
-      - name: Run C/C++ Linter
-        uses: cpp-linter/cpp-linter-action@v2
-        id: linter
-        env:
-          GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
+      - name: Checkout linter repo
+        uses: actions/checkout@v4
         with:
-          version: 18
-          style: file
+          repository: MapIV/map4_github_actions
+          token: ${{ steps.generate_token.outputs.token }}
+          paht: linter_repo
+          ref: test/ci
+
+      - name: Install linter
+        run: |
+          # Update the package list
+          sudo apt-get update
+          # Install necessary packages
+          sudo apt-get install -y wget xz-utils python3-pip clang-format-18
+          sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 1
+          sudo update-alternatives --set python /usr/bin/python3
+      - name: Run C++ linter
+        run: |
+          find main_repo -name "*.cpp" -or -name "*.cc" -or -name "*.cu" -or -name "*.h" -or -name "*.hpp" | xargs -n 1 ./linter_repo/run-clang-format.py --config_file main_repo/.clang-format --recursive --color always
