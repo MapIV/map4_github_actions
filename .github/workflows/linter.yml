@@ -44,7 +44,7 @@ jobs:
           repository: MapIV/map4_github_actions
           token: ${{ steps.generate_token.outputs.token }}
           path: linter_repo
-          ref: test/ci
+          ref: v2025.07.17
 
       - name: Install linter
         run: |
