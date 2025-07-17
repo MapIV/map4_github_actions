@@ -29,10 +29,10 @@ jobs:
           paht: config_repo
 
       - name: Run C/C++ Linter
-        uses: cpp-linter/action@v2
+        uses: cpp-linter/cpp-linter-action@v2
+        id: linter
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           version: 18
           style: file
-          paths: ${{ inputs.paths }}
-          tidy-checks: ''
-          format-only: true
