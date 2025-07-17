@@ -8,6 +8,18 @@ on:
         type: string
         default: '.'
 
+      clang-format-path:
+        required: false
+        type: string
+        default: '.clang-format'
+    secrets:
+      GITHUB_TOKEN:
+        required: true
+      CI_USER_APP_ID:
+        required: true
+      CI_USER_PRIVATE_KEY:
+        required: true
+
 jobs:
   lint:
     runs-on: self-hosted
