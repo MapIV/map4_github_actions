@@ -1,4 +1,4 @@
-name: Reusable Linter
+name: Reusable Formatter
 
 on:
   workflow_call:
@@ -21,7 +21,7 @@ on:
         required: true
 
 jobs:
-  lint:
+  formatter:
     runs-on: self-hosted
     steps:
       - name: Generate token for pulling private repo
@@ -38,15 +38,15 @@ jobs:
           token: ${{ steps.generate_token.outputs.token }}
           path: main_repo
 
-      - name: Checkout linter repo
+      - name: Checkout formatter repo
         uses: actions/checkout@v4
         with:
           repository: MapIV/map4_github_actions
           token: ${{ steps.generate_token.outputs.token }}
-          path: linter_repo
+          path: formatter_repo
           ref: v2025.07.17
 
-      - name: Install linter
+      - name: Install formatter
         run: |
           # Update the package list
           sudo apt-get update
@@ -54,7 +54,7 @@ jobs:
           sudo apt-get install -y wget xz-utils python3-pip clang-format-18
           sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 1
           sudo update-alternatives --set python /usr/bin/python3
-      - name: Run C++ linter
+      - name: Run C++ formatter
         run: |
           ls
-          find main_repo -name "*.cpp" -or -name "*.cc" -or -name "*.cu" -or -name "*.h" -or -name "*.hpp" | xargs -n 1 ./linter_repo/run-clang-format.py --config_file main_repo/.clang-format --recursive --color always
+          find main_repo -name "*.cpp" -or -name "*.cc" -or -name "*.cu" -or -name "*.h" -or -name "*.hpp" | xargs -n 1 ./formatter_repo/run-clang-format.py --config_file main_repo/.clang-format --recursive --color always

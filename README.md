@@ -2,20 +2,20 @@
 
 ## Usage
 
-### C/C++ Linter
+### C/C++ Formatter
 
 CIでテストしたいレポジトリのCI設定に次のように追加する。トリガーなどは各自の要件に合わせる。
 
 ```yaml
 
-name: Linter CI
+name: Formatter CI
 
 on:
   pull_request
 
 jobs:
-  call-linter:
-    uses: MapIV/map4_github_actions/.github/workflows/linter.yml@v2025.07.17
+  call-formatter:
+    uses: MapIV/map4_github_actions/.github/workflows/formatter.yml@v2025.07.17
     secrets:
       REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       CI_USER_APP_ID: ${{ secrets.CI_USER_APP_ID }}
