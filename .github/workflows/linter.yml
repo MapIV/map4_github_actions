@@ -3,36 +3,58 @@ name: Reusable Linter
 on:
   workflow_call:
     inputs:
-      files:
+      paths:
         required: false
         type: string
         default: '.'
+
+      clang-format-path:
+        required: false
+        type: string
+        default: '.clang-format'
     secrets:
       REPO_TOKEN:
+        required: true
+      CI_USER_APP_ID:
+        required: true
+      CI_USER_PRIVATE_KEY:
         required: true
 
 jobs:
   lint:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
+      - name: Generate token for pulling private repo
+        uses: actions/create-github-app-token@v1.5.0
+        id: generate_token
+        with:
+          app-id: ${{ secrets.CI_USER_APP_ID }}
+          private-key: ${{ secrets.CI_USER_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.REPO_TOKEN }}
+          token: ${{ steps.generate_token.outputs.token }}
           path: main_repo
 
-      - name: Checkout .clang-format config
+      - name: Checkout linter repo
         uses: actions/checkout@v4
         with:
           repository: MapIV/map4_github_actions
-          token: ${{ secrets.REPO_TOKEN }}
-          paht: config_repo
+          token: ${{ steps.generate_token.outputs.token }}
+          path: linter_repo
+          ref: v2025.07.17
 
-      - name: Run C/C++ Linter
-        uses: cpp-linter/action@v2
-        with:
-          version: 18
-          style: file
-          paths: ${{ inputs.paths }}
-          tidy-checks: ''
-          format-only: true
+      - name: Install linter
+        run: |
+          # Update the package list
+          sudo apt-get update
+          # Install necessary packages
+          sudo apt-get install -y wget xz-utils python3-pip clang-format-18
+          sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 1
+          sudo update-alternatives --set python /usr/bin/python3
+      - name: Run C++ linter
+        run: |
+          ls
+          find main_repo -name "*.cpp" -or -name "*.cc" -or -name "*.cu" -or -name "*.h" -or -name "*.hpp" | xargs -n 1 ./linter_repo/run-clang-format.py --config_file main_repo/.clang-format --recursive --color always

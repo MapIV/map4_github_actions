@@ -53,7 +53,7 @@ BreakBeforeBraces: Custom
 # Control of individual brace wrapping cases
 BraceWrapping: {
     AfterClass: 'true',
-    AfterCase: 'true',
+    AfterCaseLabel: 'true',
     AfterControlStatement: 'true',
     AfterEnum : 'true',
     AfterFunction : 'true',
