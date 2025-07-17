@@ -43,7 +43,7 @@ jobs:
         with:
           repository: MapIV/map4_github_actions
           token: ${{ steps.generate_token.outputs.token }}
-          paht: linter_repo
+          path: linter_repo
           ref: test/ci
 
       - name: Install linter
