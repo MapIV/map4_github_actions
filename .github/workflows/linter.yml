@@ -7,9 +7,6 @@ on:
         required: false
         type: string
         default: '.'
-    secrets:
-      REPO_TOKEN:
-        required: true
 
 jobs:
   lint:
@@ -22,6 +19,7 @@ jobs:
           app-id: ${{ secrets.CI_USER_APP_ID }}
           private-key: ${{ secrets.CI_USER_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
+
       - name: Checkout code
         uses: actions/checkout@v4
         with:
