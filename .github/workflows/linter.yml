@@ -3,7 +3,7 @@ name: Reusable Linter
 on:
   workflow_call:
     inputs:
-      files:
+      paths:
         required: false
         type: string
         default: '.'
