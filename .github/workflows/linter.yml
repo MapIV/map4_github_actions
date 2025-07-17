@@ -15,17 +15,24 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
+      - name: Generate token for pulling private repo
+        uses: actions/create-github-app-token@v1.5.0
+        id: generate_token
+        with:
+          app-id: ${{ secrets.CI_USER_APP_ID }}
+          private-key: ${{ secrets.CI_USER_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.REPO_TOKEN }}
+          token: ${{ steps.generate_token.outputs.token }}
           path: main_repo
 
       - name: Checkout .clang-format config
         uses: actions/checkout@v4
         with:
-          repository: MapIV/map4_github_actions
-          token: ${{ secrets.REPO_TOKEN }}
+          repository: MapIV/map4_github_actions@test/ci
+          token: ${{ steps.generate_token.outputs.token }}
           paht: config_repo
 
       - name: Run C/C++ Linter
