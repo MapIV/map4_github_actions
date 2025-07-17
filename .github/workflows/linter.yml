@@ -41,9 +41,10 @@ jobs:
       - name: Checkout .clang-format config
         uses: actions/checkout@v4
         with:
-          repository: MapIV/map4_github_actions@test/ci
+          repository: MapIV/map4_github_actions
           token: ${{ steps.generate_token.outputs.token }}
           paht: config_repo
+          ref: test/ci
 
       - name: Run C/C++ Linter
         uses: cpp-linter/cpp-linter-action@v2
