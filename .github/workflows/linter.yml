@@ -10,7 +10,7 @@ on:
 
 jobs:
   lint:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Generate token for pulling private repo
         uses: actions/create-github-app-token@v1.5.0
