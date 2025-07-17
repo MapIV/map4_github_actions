@@ -1,0 +1,38 @@
+name: Reusable Linter
+
+on:
+  workflow_call:
+    inputs:
+      files:
+        required: false
+        type: string
+        default: '.'
+    secrets:
+      REPO_TOKEN:
+        required: true
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.REPO_TOKEN }}
+          path: main_repo
+
+      - name: Checkout .clang-format config
+        uses: actions/checkout@v4
+        with:
+          repository: MapIV/map4_github_actions
+          token: ${{ secrets.REPO_TOKEN }}
+          paht: config_repo
+
+      - name: Run C/C++ Linter
+        uses: cpp-linter/action@v2
+        with:
+          version: 18
+          style: file
+          paths: ${{ inputs.paths }}
+          tidy-checks: ''
+          format-only: true
