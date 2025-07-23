@@ -27,4 +27,6 @@ jobs:
 
 ### Pre-commit Formatter
 
-利用したいレポジトリのルートに`.pre-commit-config.yaml`を配置する。
+1. 利用したいレポジトリのルートに`.pre-commit-config.yaml`を配置する
+1. pip3 install pre-commit
+1. pre-commit install
