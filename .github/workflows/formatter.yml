@@ -46,4 +46,4 @@ jobs:
           sudo update-alternatives --set python /usr/bin/python3
       - name: Run C++ formatter
         run: |
-          find main_repo -name "*.cpp" -or -name "*.cc" -or -name "*.cu" -or -name "*.h" -or -name "*.hpp" | xargs -n 1 ./formatter_repo/run-clang-format.py --config_file formatter_repo/.clang_format --recursive --color always
+          find main_repo -name "*.cpp" -or -name "*.cc" -or -name "*.cu" -or -name "*.h" -or -name "*.hpp" | xargs -n 1 ./formatter_repo/run-clang-format.py --config_file formatter_repo/.clang-format --recursive --color always
