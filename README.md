@@ -1,5 +1,7 @@
 # map4_github_actions
 
+C/C++のフォーマットには `clang-format-18` を利用している
+
 ## Usage
 
 ### C/C++ Formatter
@@ -22,3 +24,7 @@ jobs:
       CI_USER_PRIVATE_KEY: ${{ secrets.CI_USER_PRIVATE_KEY }}
 
 ```
+
+### Pre-commit Formatter
+
+利用したいレポジトリのルートに`.pre-commit-config.yaml`を配置する。
