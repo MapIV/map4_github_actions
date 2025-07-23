@@ -1,0 +1,23 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+
+  - repo: local
+    hooks:
+      - id: setup-clang-format-config
+        name: Download and Link Clang-Format Config
+        entry: bash -c 'curl -o .clang-format https://raw.githubusercontent.com/MapIV/map4_github_actions/refs/tags/v2025.07.23/.clang-format && echo "Download .clang-format"'
+        language: system
+        pass_filenames: false
+        stages: [pre-commit]
+        always_run: true
+
+  - repo: https://github.com/pre-commit/mirrors-clang-format
+    rev: v18.1.3
+    hooks:
+      - id: clang-format
+        args: [--style=file, -i]
