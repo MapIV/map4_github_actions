@@ -15,12 +15,10 @@ on:
 
 jobs:
   call-formatter:
-    uses: MapIV/map4_github_actions/.github/workflows/formatter.yml@v2025.07.17
+    uses: MapIV/map4_github_actions/.github/workflows/formatter.yml@v2025.07.23
     secrets:
       REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       CI_USER_APP_ID: ${{ secrets.CI_USER_APP_ID }}
       CI_USER_PRIVATE_KEY: ${{ secrets.CI_USER_PRIVATE_KEY }}
-    with:
-      paths: 'src/ include/'
 
 ```
