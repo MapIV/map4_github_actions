@@ -1,0 +1,34 @@
+name: Check PR Title Format
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, edited]
+    branches:
+      - master
+  workflow_call:
+    outputs:
+      is_pr_title_valid:
+        description: "Is the PR title format correct"
+        value: ${{ jobs.check-pr-title.outputs.is_pr_title_valid }}
+
+jobs:
+  check-pr-title:
+    runs-on: self-hosted
+    outputs:
+      is_pr_title_valid: ${{ steps.check-pr-title.outputs.is_pr_title_valid }}
+    steps:
+      - name: Check PR Title
+        id: check-pr-title
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prTitle = context.payload.pull_request.title;
+            const pattern = /^\[[^\]]+\]\[[^\]]+\] .+/;
+            const isValid = pattern.test(prTitle);
+            core.setOutput('is_pr_title_valid', isValid.toString());
+
+            if (!isValid) {
+              core.setFailed(`❌ PR title "${prTitle}" does not match the required pattern. Make sure it follow Semantic PR definition '[category][scope] description'.`);
+            } else {
+              core.info(`✅ PR title "${prTitle}" matches the pattern.`);
+            }

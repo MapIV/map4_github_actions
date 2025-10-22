@@ -30,3 +30,12 @@ jobs:
 1. 利用したいレポジトリのルートに`.pre-commit-config.yaml`を配置する
 1. pip3 install pre-commit
 1. pre-commit install
+
+### Check PR Title
+
+To enable this workflow, add the `check-pr-title.yml` file to your repository under the `.github/workflows/` directory.
+Ensure that GitHub Actions are enabled in your repository. When a pull request is opened, edited, or synchronized, the workflow will automatically check whether the PR title follows the Semantic PR naming convention.
+
+このワークフローを有効にするには、リポジトリの `.github/workflows/` ディレクトリに `check-pr-title.yml` ファイルを追加してください。
+また、リポジトリで GitHub Actions が有効になっていることを確認してください。
+プルリクエストが作成・編集・同期された際に、ワークフローが自動的にタイトルをチェックし、Semantic PR の命名規則に従っているかを確認します。
