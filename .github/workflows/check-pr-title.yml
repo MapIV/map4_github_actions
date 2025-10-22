@@ -28,7 +28,7 @@ jobs:
             core.setOutput('is_pr_title_valid', isValid.toString());
 
             if (!isValid) {
-              core.setFailed(`❌ PR title "${prTitle}" does not match the required pattern. Make sure it starts with two sets of square brackets and a summary.`);
+              core.setFailed(`❌ PR title "${prTitle}" does not match the required pattern. Make sure it follow Semantic PR definition '[category][scope] description'.`);
             } else {
               core.info(`✅ PR title "${prTitle}" matches the pattern.`);
             }
