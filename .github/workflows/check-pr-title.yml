@@ -4,7 +4,7 @@ on:
   pull_request:
     types: [opened, reopened, synchronize, edited]
     branches:
-      - develop
+      - master
   workflow_call:
     outputs:
       is_pr_title_valid:
