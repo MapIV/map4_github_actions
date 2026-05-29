@@ -12,24 +12,24 @@ on:
 
 jobs:
   formatter:
-    runs-on: self-hosted
+    runs-on: [self-hosted, Linux]
     steps:
       - name: Generate token for pulling private repo
-        uses: actions/create-github-app-token@v1.5.0
+        uses: actions/create-github-app-token@v3.2.0
         id: generate_token
         with:
-          app-id: ${{ secrets.CI_USER_APP_ID }}
+          client-id: ${{ secrets.CI_USER_APP_ID }}
           private-key: ${{ secrets.CI_USER_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
 
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6.0.2
         with:
           token: ${{ steps.generate_token.outputs.token }}
           path: main_repo
 
       - name: Checkout formatter repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6.0.2
         with:
           repository: MapIV/map4_github_actions
           token: ${{ steps.generate_token.outputs.token }}
@@ -38,9 +38,10 @@ jobs:
 
       - name: Install formatter
         run: |
-          # Update the package list
+          CODENAME=$(. /etc/os-release && echo "$UBUNTU_CODENAME")
+          wget -qO- https://apt.llvm.org/llvm-snapshot.gpg.key | sudo tee /etc/apt/trusted.gpg.d/apt.llvm.org.asc
+          echo "deb http://apt.llvm.org/${CODENAME}/ llvm-toolchain-${CODENAME}-18 main" | sudo tee /etc/apt/sources.list.d/llvm.list
           sudo apt-get update
-          # Install necessary packages
           sudo apt-get install -y wget xz-utils python3-pip clang-format-18
           sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 1
           sudo update-alternatives --set python /usr/bin/python3
