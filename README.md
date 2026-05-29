@@ -17,7 +17,7 @@ on:
 
 jobs:
   call-formatter:
-    uses: MapIV/map4_github_actions/.github/workflows/formatter.yml@v2025.07.23
+    uses: MapIV/map4_github_actions/.github/workflows/formatter.yml@v2026.05.29
     secrets:
       REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       CI_USER_APP_ID: ${{ secrets.CI_USER_APP_ID }}
